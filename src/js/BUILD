@@ -1,5 +1,4 @@
-load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_library")
-load("//build_tools:closure.bzl", "closure_js_binary_set")
+load("//build_tools:closure.bzl", "closure_js_library", "closure_js_binary_set")
 
 genrule(
     name = "gen_soy_js",
@@ -94,7 +93,21 @@ closure_js_binary_set(
     language = "ECMASCRIPT5_STRICT",
     output_wrapper = "(function(){%output%;}).call(this);",
     visibility = ["//src/java/com/github/jsdossier:__pkg__"],
-    deps = [":app_lib"],
+    deps = [
+        "app.js",
+        "heap.js",
+        "main.js",
+        "nav.js",
+        "page.js",
+        "search.js",
+        "xhr.js",
+        "soyijdata.js",
+        "soyplugins.js",
+        "dossier.soy.js",
+        "nav.soy.js",
+        "types.soy.js",
+        "@com_google_javascript_closure_library//:closure/goog/ui/ac/ac.js",
+    ],
 )
 
 closure_js_library(
@@ -116,7 +129,10 @@ closure_js_binary_set(
         "--jscomp_error=checkTypes",
         "--jscomp_error=checkVars",
         "--jscomp_error=constantProperty",
-        "--jscomp_error=deprecated",
+        # Had to remove due to
+        # ERROR - [JSC_DEPRECATED_PROP_REASON] Property defineClass of type goog has been deprecated: Use ES6 class syntax instead.
+        #  if (!goog.defineClass.SEAL_CLASS_INSTANCES) {
+        #"--jscomp_error=deprecated",
         "--jscomp_error=duplicateMessage",
         "--jscomp_error=es5Strict",
         "--jscomp_error=externsValidation",
@@ -139,5 +155,5 @@ closure_js_binary_set(
     entry_points = ["goog:dossier.serviceworker.main"],
     language = "ECMASCRIPT5_STRICT",
     visibility = ["//src/java/com/github/jsdossier:__pkg__"],
-    deps = [":serviceworker_lib"],
+    deps = ["serviceworker/main.js"],
 )
