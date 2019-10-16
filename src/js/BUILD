@@ -29,7 +29,7 @@ closure_js_library(
     visibility = ["//visibility:private"],
     deps = [
         "//src/proto:jslib",
-        "@io_bazel_rules_closure//closure/library",
+        "@com_google_javascript_closure_library//closure/goog:library",
         "@io_bazel_rules_closure//closure/templates:soy_jssrc",
     ],
 )
@@ -49,12 +49,12 @@ closure_js_library(
     deps = [
         ":soy",
         "//src/proto:jslib",
-        "@io_bazel_rules_closure//closure/library",
-        "@io_bazel_rules_closure//closure/library/labs/useragent:browser",
-        "@io_bazel_rules_closure//closure/library/labs/useragent:engine",
-        "@io_bazel_rules_closure//closure/library/ui/ac:autocomplete",
-        "@io_bazel_rules_closure//closure/library/ui/ac:inputhandler",
-        "@io_bazel_rules_closure//closure/library/ui/ac:renderer",
+        "@com_google_javascript_closure_library//closure/goog:library",
+        "@com_google_javascript_closure_library//closure/goog/labs/useragent:browser",
+        "@com_google_javascript_closure_library//closure/goog/labs/useragent:engine",
+        "@com_google_javascript_closure_library//closure/goog/ui/ac:autocomplete",
+        "@com_google_javascript_closure_library//closure/goog/ui/ac:inputhandler",
+        "@com_google_javascript_closure_library//closure/goog/ui/ac:renderer",
         "@io_bazel_rules_closure//closure/protobuf:jspb",
         "@io_bazel_rules_closure//closure/templates:soy_jssrc",
     ],

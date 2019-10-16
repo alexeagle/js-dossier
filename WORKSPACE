@@ -22,6 +22,16 @@ http_archive(
     ],
 )
 
+http_archive(
+    name = "com_google_javascript_closure_library",
+    urls = [
+        "https://mirror.bazel.build/github.com/google/closure-library/archive/v20190729.tar.gz",
+        "https://github.com/google/closure-library/archive/v20190729.tar.gz",
+    ],
+    sha256 = "8e8a57146510d27f63f750533d274a5d7654df155491629d6585233a631f5590",
+    strip_prefix = "closure-library-20190729",
+)
+
 load("@io_bazel_rules_closure//closure:defs.bzl", "closure_repositories")
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
@@ -59,4 +69,5 @@ maven_jar(
 
 closure_repositories(
     omit_com_google_template_soy = True,
+    omit_com_google_javascript_closure_library = True,
 )
