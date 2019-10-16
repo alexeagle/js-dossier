@@ -1,6 +1,6 @@
 workspace(name = "dossier")
 
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 
 RULES_JVM_EXTERNAL_TAG = "2.7"
 
@@ -14,15 +14,46 @@ http_archive(
 )
 
 http_archive(
-    name = "io_bazel_rules_closure",
-    sha256 = "f2badc609a80a234bb51d1855281dd46cac90eadc57545880a3b5c38be0960e7",
-    strip_prefix = "rules_closure-b2a6fb762a2a655d9970d88a9218b7a1cf098ffa",
+    name = "build_bazel_rules_nodejs",
+    sha256 = "0942d188f4d0de6ddb743b9f6642a26ce1ad89f09c0035a9a5ca5ba9615c96aa",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/0.38.1/rules_nodejs-0.38.1.tar.gz"],
+)
+
+http_archive(
+    name = "com_google_protobuf",
+    sha256 = "758249b537abba2f21ebc2d02555bf080917f0f2f88f4cbe2903e0e28c4187ed",
+    strip_prefix = "protobuf-3.10.0",
+    urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.10.0.tar.gz"],
+)
+
+http_file(
+    name = "com_google_common_html_types_html_proto",
+    sha256 = "6ece202f11574e37d0c31d9cf2e9e11a0dbc9218766d50d211059ebd495b49c3",
     urls = [
-        "https://github.com/bazelbuild/rules_closure/archive/b2a6fb762a2a655d9970d88a9218b7a1cf098ffa.tar.gz",  # 2019-08-05
+        "https://mirror.bazel.build/raw.githubusercontent.com/google/safe-html-types/release-1.0.5/proto/src/main/protobuf/webutil/html/types/proto/html.proto",
+        "https://raw.githubusercontent.com/google/safe-html-types/release-1.0.5/proto/src/main/protobuf/webutil/html/types/proto/html.proto",
     ],
 )
 
-load("@io_bazel_rules_closure//closure:defs.bzl", "closure_repositories")
+http_archive(
+    name = "com_google_javascript_closure_library",
+    urls = [
+        "https://mirror.bazel.build/github.com/google/closure-library/archive/v20190729.tar.gz",
+        "https://github.com/google/closure-library/archive/v20190729.tar.gz",
+    ],
+    sha256 = "8e8a57146510d27f63f750533d274a5d7654df155491629d6585233a631f5590",
+    strip_prefix = "closure-library-20190729",
+    #build_file = "//third_party/java/closure_library:closure_library.BUILD",
+)
+
+load("@build_bazel_rules_nodejs//:index.bzl", "npm_install")
+
+npm_install(
+    name = "npm",
+    package_json = "//:package.json",
+    package_lock_json = "//:package-lock.json",
+)
+
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
 maven_install(
@@ -57,6 +88,6 @@ maven_jar(
     sha1 = "49ffac557a908252a37e8806f5897a274dbbc198",
 )
 
-closure_repositories(
-    omit_com_google_template_soy = True,
-)
+load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+
+protobuf_deps()

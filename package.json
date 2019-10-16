@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/jleyba/js-dossier/issues"
   },
-  "homepage": "https://github.com/jleyba/js-dossier"
+  "homepage": "https://github.com/jleyba/js-dossier",
+  "devDependencies": {
+    "google-closure-compiler": "^20190929.0.0"
+  }
 }

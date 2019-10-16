@@ -1,4 +1,4 @@
-load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_library")
+load("//build_tools:closure.bzl", "closure_js_library")
 load("//build_tools:javascript.bzl", "js_proto_library")
 
 proto_library(
@@ -21,8 +21,8 @@ closure_js_library(
     ],
     visibility = ["//src/js:__pkg__"],
     deps = [
-        "@io_bazel_rules_closure//closure/protobuf:jspb",
-        "@io_bazel_rules_closure//closure/templates:soy_html_proto",
+        #"@io_bazel_rules_closure//closure/protobuf:jspb",
+        #"@io_bazel_rules_closure//closure/templates:soy_html_proto",
     ],
 )
 
